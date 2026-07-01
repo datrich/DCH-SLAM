@@ -30,12 +30,24 @@
 - **Adaptive Barron robust kernel** — Replaces the fixed Huber kernel in Local Bundle Adjustment (LBA) with an adaptive Barron kernel whose shape parameter α is estimated online from the residual distribution, down-weighting both known and unknown dynamic-object outliers.
 - **Asynchronous YOLO semantic thread** — Follows the NGD-SLAM architecture: YOLO detection runs in a separate thread and is queried every *k* = 3 frames, decoupling inference latency from tracking and enabling real-time operation on edge hardware.
 
-### Results on Jetson Orin NX (TUM fr3/walking_xyz, 3 runs)
+### Results on Jetson Orin NX (3 runs each)
 
-| Pipeline | RMSE (cm) | Track. latency | FPS |
-|----------|-----------|---------------|-----|
-| NGD-SLAM baseline (Huber + CPU ORB + sync YOLO) | 3.46 | 61.9 ms | 16.2 |
-| **DCH-SLAM** (Barron + CUDA ORB + async YOLO) | **3.51** | **50.7 ms** | **19.7** |
+| Pipeline | TUM RMSE | Bonn RMSE | Track. latency | FPS |
+|----------|----------|-----------|----------------|-----|
+| NGD-SLAM baseline (Huber + CPU ORB + sync YOLO) | 3.46 cm | 4.15 cm | 61.9 ms | 16.2 |
+| **DCH-SLAM** (Barron + CUDA ORB + async YOLO) | **3.51 cm** | **4.37 cm** | **50.7 ms** | **19.7** |
+
+<p align="center">
+  <img src="assets/eval_comparison.png" alt="Main results: RMSE and FPS comparison" width="80%">
+</p>
+
+<p align="center">
+  <img src="assets/ablation.png" alt="Ablation study" width="80%">
+</p>
+
+<p align="center">
+  <img src="assets/scatter_acc_speed.png" alt="Accuracy vs Speed scatter plot" width="55%">
+</p>
 
 ---
 
