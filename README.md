@@ -141,14 +141,25 @@ Download from [www.ipb.uni-bonn.de/data/rgbd-dynamic-dataset](http://www.ipb.uni
 
 ---
 
-# 4. Key Differences from NGD-SLAM
+# 4. Comparison with Related Pipelines
 
-| Component | NGD-SLAM | DCH-SLAM |
-|-----------|----------|----------|
-| ORB front-end | CPU | CPU **or** CUDA (USE_CUDA_FRONTEND=ON) |
-| Robust kernel (LBA) | Fixed Huber | **Adaptive Barron** (α estimated online) |
-| YOLO invocation | Synchronous (blocks tracking) | **Asynchronous** (every k=3 frames) |
-| Target hardware | Laptop CPU | Laptop CPU **+ Jetson / desktop GPU** |
+DCH-SLAM is the first system to simultaneously address GPU-accelerated feature extraction, asynchronous semantic filtering, and adaptive robust optimization in a single ORB-SLAM3 pipeline. The table below positions it against representative recent systems:
+
+| System | Backbone | Feature Extraction | Dynamic Handling | Semantic Thread | Robust Kernel | Edge GPU |
+|--------|----------|--------------------|-----------------|----------------|---------------|----------|
+| [ORB-SLAM3](https://github.com/UZ-SLAMLab/ORB_SLAM3) (TRO 2021) | ORB-SLAM3 | CPU | ✗ None | ✗ | Fixed Huber | ✗ |
+| [DynaSLAM](https://github.com/BertaBescos/DynaSLAM) (RAL 2018) | ORB-SLAM2 | CPU | Hard mask (Mask R-CNN) | Sync, heavy | Fixed Huber | ✗ |
+| [DS-SLAM](https://github.com/ivipsourcecode/DS-SLAM) (IROS 2018) | ORB-SLAM2 | CPU | Hard mask (SegNet) | Sync | Fixed Huber | ✗ |
+| [Jetson-SLAM](https://github.com/KumarRobotics/jetson-slam) (RAL 2023) | ORB-SLAM2 | **CUDA** | ✗ None | ✗ | Fixed Huber | ✓ |
+| [NGD-SLAM](https://github.com/yuhaozhang7/NGD-SLAM) (IROS 2025) | ORB-SLAM3 | CPU | Hard mask (YOLO) | **Async** | Fixed Huber | ✗ |
+| [VAR-SLAM](https://arxiv.org/abs/2510.16205) (arXiv 2025) | ORB-SLAM3 | CPU | Soft weight (YOLO) | Sync | **Adaptive Barron** | ✗ |
+| **DCH-SLAM** (ours) | ORB-SLAM3 | **CUDA** | Soft weight (YOLO + depth) | **Async** | **Adaptive Barron** | **✓** |
+
+**Key observations:**
+- Jetson-SLAM is the only prior GPU-accelerated system but targets ORB-SLAM2 and has no dynamic handling.
+- NGD-SLAM achieves async inference on CPU but uses a fixed Huber kernel, making it sensitive to unknown dynamic objects.
+- VAR-SLAM introduces the adaptive kernel but runs synchronous YOLO and is CPU-only.
+- DCH-SLAM is the first pipeline to combine all three: CUDA front-end + async semantic thread + adaptive robust kernel, enabling deployment on embedded GPU platforms.
 
 ---
 
