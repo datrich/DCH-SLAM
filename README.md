@@ -1,16 +1,5 @@
 <div align="center">
   <h1>DCH-SLAM: A CUDA-Accelerated Dynamic-Aware Visual SLAM<br>for Real-Time Deployment on Edge GPUs</h1>
-  <strong>ICTA 2026 (under review)</strong>
-  <br>
-    <a href="#" target="_blank">Dat Bui Minh Tuan</a><sup>1</sup>,
-    <a href="#" target="_blank">Cuong Phan Trong</a><sup>1</sup>,
-    <a href="#" target="_blank">Hung Nguyen Viet</a><sup>1</sup>,
-    <a href="#" target="_blank">Mai Cao Van</a><sup>1</sup>
-  <p>
-    <h5>
-      <sup>1</sup>FPT University, Vietnam
-    </h5>
-  </p>
 
   [<img src="https://img.shields.io/badge/GitHub-DCH--SLAM-black?logo=github" alt="GitHub">](https://github.com/datrich/DCH-SLAM)
   [<img src="https://img.shields.io/badge/Platform-Jetson_Orin_NX-green?logo=nvidia" alt="Jetson">](#)
@@ -197,11 +186,12 @@ DCH-SLAM is the first system to simultaneously address GPU-accelerated feature e
 If you find DCH-SLAM useful in your research, please cite:
 
 ```bibtex
-@inproceedings{bui2026dchslam,
+@inproceedings{anon2026dchslam,
   title={{DCH-SLAM}: A CUDA-Accelerated Dynamic-Aware Visual SLAM for Real-Time Deployment on Edge GPUs},
-  author={Bui Minh Tuan, Dat and Phan Trong, Cuong and Nguyen Viet, Hung and Cao Van, Mai},
+  author={Anonymous},
   booktitle={Proceedings of the International Conference on Intelligent Technologies and Applications (ICTA)},
-  year={2026}
+  year={2026},
+  note={Citation will be updated upon publication}
 }
 ```
 
