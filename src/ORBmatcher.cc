@@ -2030,6 +2030,12 @@ namespace ORB_SLAM3
             }
         }
 
+        if (lastKeyPoints.empty())
+        {
+            CurrentFrame.N = 0;
+            return 0;
+        }
+
         if (LastImg.channels() > 1)
             cv::cvtColor(LastImg, LastImg, cv::COLOR_BGR2GRAY);
 

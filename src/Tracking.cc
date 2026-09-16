@@ -1595,10 +1595,11 @@ Sophus::SE3f Tracking::GrabImageRGBD(const cv::Mat &imRGB, const cv::Mat &imD, c
                 }
             }
         }
-        else if(mFrameNum == 1)
+        else
         {
-            // First frame: YOLO not ready yet — use empty mask (no dynamic objects assumed)
-            mImMask = cv::Mat::zeros(mImRGB.rows, mImRGB.cols, CV_8UC1);
+            // YOLO has no output yet — keep last mask or start with empty mask
+            if(mImMask.empty())
+                mImMask = cv::Mat::zeros(mImRGB.rows, mImRGB.cols, CV_8UC1);
         }
     }
     if(mFrameNum > 1) PredictCurrentMask();
@@ -3277,6 +3278,9 @@ bool Tracking::TrackLocalMap()
 
 bool Tracking::NeedNewKeyFrame()
 {
+    if(!mpReferenceKF)
+        return true;
+
     if((mSensor == System::IMU_MONOCULAR || mSensor == System::IMU_STEREO || mSensor == System::IMU_RGBD) && !mpAtlas->GetCurrentMap()->isImuInitialized())
     {
         if (mSensor == System::IMU_MONOCULAR && (mCurrentFrame.mTimeStamp-mpLastKeyFrame->mTimeStamp)>=0.25)

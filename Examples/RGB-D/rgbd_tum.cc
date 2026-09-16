@@ -124,10 +124,7 @@ int main(int argc, char **argv)
             usleep((T-ttrack)*1e6);
     }
 
-    // Stop all threads
-    SLAM.Shutdown();
-
-    // Tracking time statistics
+    // Tracking time statistics (before Shutdown to avoid double-free crash)
     sort(vTimesTrack.begin(),vTimesTrack.end());
     float totaltime = 0;
     for(int ni=0; ni<nImages; ni++)
@@ -138,9 +135,12 @@ int main(int argc, char **argv)
     cout << "median tracking time: " << vTimesTrack[nImages/2] << endl;
     cout << "mean tracking time: " << totaltime/nImages << endl;
 
-    // Save camera trajectory
+    // Save trajectory BEFORE Shutdown (Shutdown may crash due to YOLO async thread cleanup)
     SLAM.SaveTrajectoryTUM("CameraTrajectory.txt");
-    SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory.txt");   
+    SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory.txt");
+
+    // Stop all threads (may crash with double-free in YOLO thread dtor — trajectory already saved)
+    SLAM.Shutdown();
 
     return 0;
 }
